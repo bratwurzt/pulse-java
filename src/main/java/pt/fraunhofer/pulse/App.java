@@ -3,42 +3,48 @@ package pt.fraunhofer.pulse;
 import com.xuggle.mediatool.IMediaReader;
 import com.xuggle.mediatool.IMediaViewer;
 import com.xuggle.mediatool.ToolFactory;
+
+import javax.swing.*;
 import java.awt.image.BufferedImage;
-import javax.swing.JFrame;
 
-public class App {
+public class App
+{
 
-    static {
-        System.loadLibrary("opencv_java");
-    }
+  static
+  {
+    System.loadLibrary("opencv_java");
+  }
 
-    public static void main(String[] args) {
-        IMediaReader reader = ToolFactory.makeReader(
+  public static void main(String[] args)
+  {
+    IMediaReader reader = ToolFactory.makeReader(
 //                "../../videos/me2.mov"
-                "../../vidmagSIGGRAPH2012/face_source_timecode.wmv"
+        "../../vidmagSIGGRAPH2012/face_source_timecode.wmv"
 //                "../../vidmagSIGGRAPH2012/face2_source.mp4"
 //                "../../vidmagSIGGRAPH2012/baby2_source.mp4"
-                );
-        reader.setBufferedImageTypeToGenerate(BufferedImage.TYPE_3BYTE_BGR);
+    );
+    reader.setBufferedImageTypeToGenerate(BufferedImage.TYPE_3BYTE_BGR);
 
-        // original viewer
+    // original viewer
 //        reader.addListener(ToolFactory.makeViewer(IMediaViewer.Mode.FAST_VIDEO_ONLY, false, JFrame.EXIT_ON_CLOSE));
 
-        // evm
-        reader.addListener(new EvmMediaToolAdapter(
+    // evm
+    reader.addListener(new EvmMediaToolAdapter(
 //                new EvmGdownIdeal
 //                new EvmGdownIIR
-                new EvmLpyrIIR
-                        ("res/lbpcascade_frontalface.xml")));
+        new EvmLpyrIIR
+            ("res/lbpcascade_frontalface.xml")));
 
-        // evm viewer
-        reader.addListener(ToolFactory.makeViewer(IMediaViewer.Mode.FAST_VIDEO_ONLY, false, JFrame.EXIT_ON_CLOSE));
+    // evm viewer
+    reader.addListener(ToolFactory.makeViewer(IMediaViewer.Mode.FAST_VIDEO_ONLY, false, JFrame.EXIT_ON_CLOSE));
 
-        // writer
+    // writer
 //        reader.addListener(ToolFactory.makeWriter("out.mov", reader));
 
-        while (reader.readPacket() == null) {}
-        System.exit(0);
+    while (reader.readPacket() == null)
+    {
     }
+    System.exit(0);
+  }
 
 }
